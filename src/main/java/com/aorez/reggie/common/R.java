@@ -2,12 +2,13 @@ package com.aorez.reggie.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 //返回结果集
 @Data
-public class R<T> {
+public class R<T> implements Serializable {
     //编码，1成功
     private Integer code;
     //错误信息

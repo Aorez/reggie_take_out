@@ -11,6 +11,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 //直到看到短信验证码保存在redis中的那个视频的一条弹幕，说多服务器的适合session无法共享
 //而jvm运行内存的数据肯定不是对外共享的，而只要有一个redis，就可以有多个数据库连接，进而解决了访问效率加数据共享的问题
 
+//使用spring cache cache manager的基本功能时，是利用内存进行缓存的
+//cache manager利用map进行保存数据，注解中的value对应一种缓存分类，key对应该分类中的store map中的key，最后对应的value就是所缓存的数据对象
+//就像从txt中读出联系人数据到vector中一样
+
 //使用redis后，回顾了一下变量共享，BaseContext，HttpSession
 //BaseContext是为了解决MyMetaObjectHandler中获取不到session的问题
 @Configuration
