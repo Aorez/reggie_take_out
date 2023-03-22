@@ -3,11 +3,11 @@ server:
 spring:
   application:
     name: reggie_take_out
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root221899
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+#    username: root
+#    password: root221899
   redis:
     host: localhost
     port: 6379
@@ -16,6 +16,35 @@ spring:
   cache:
     redis:
       time-to-live: 1800000
+  shardingsphere:
+    datasource:
+      names:
+        master,slave
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.56.101:3306/reggie?characterEncoding=utf-8
+        username: root
+        password: root
+      slave:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.56.102:3306/reggie?characterEncoding=utf-8
+        username: root
+        password: root
+    masterslave:
+      load-balance-algorithm-type: round_robin
+      # 最终的数据源名称
+      name: dataSource
+      master-data-source-name: master
+      slave-data-source-names: slave
+    props:
+      sql:
+        # enable sql showing
+        show: true
+  main:
+    # druid和sharding都会创建data source对象，放入spring容器，避免冲突，允许覆盖
+    allow-bean-definition-overriding: true
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -25,3 +54,6 @@ mybatis-plus:
       id-type: assign_id
 reggie:
   path: "/src/main/resources/img/"
+logging:
+  level:
+    root: info
