@@ -30,7 +30,9 @@ public class LoginCheckFilter implements Filter {
 
         String[] uris = {"/employee/login", "/employee/logout", "/backend/**", "/front/**",
                 "/common/**",
-                "/user/sendMsg", "/user/login"};
+                "/user/sendMsg", "/user/login",
+                //生成接口文档需要开放访问
+                "/doc.html","/webjars/**","/swagger-resources","/v2/api-docs"};
         boolean match = matchPath(uris, uri);
 
         HttpServletResponse response = (HttpServletResponse) servletResponse;
